@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import axios from "axios";
 import Link from "next/link";
+import { calculateCheckoutTotals } from "@/lib/pricing";
 
 interface OrderItem {
   product: { name: string; price: number };
@@ -81,8 +82,7 @@ export default function CheckoutPage() {
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const tax = Math.round(totalPrice * 0.18);
-  const finalTotal = totalPrice + tax;
+  const { tax, total: finalTotal } = calculateCheckoutTotals(totalPrice);
 
   if (loading)
     return (

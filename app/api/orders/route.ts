@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { getAuthenticatedSession } from "@/lib/authorization";
+import { calculateCheckoutTotals } from "@/lib/pricing";
 
 // POST create order
 export async function POST(req: Request) {
@@ -35,9 +36,10 @@ export async function POST(req: Request) {
     }
 
     // Calculate total
-    const totalAmount = cart.items.reduce((sum, item) => {
+    const subtotal = cart.items.reduce((sum, item) => {
       return sum + item.product.price * item.quantity;
     }, 0);
+    const { total: totalAmount } = calculateCheckoutTotals(subtotal);
 
     // Create order
     const order = await prisma.order.create({
