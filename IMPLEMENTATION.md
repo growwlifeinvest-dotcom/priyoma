@@ -196,8 +196,8 @@ npm install
 npm run prisma:generate
 npm run prisma:migrate
 
-# Optional: Add test data
-npm run prisma:seed
+# Optional: Add disposable development data (destructive)
+npm run seed:dev
 ```
 
 ### Step 4: Start Development Server
@@ -279,18 +279,7 @@ GET    /admin/categories           - Manage categories
 
 ## 🔐 Authentication Setup
 
-### Default Test Accounts (if seeded)
-```
-Admin Account:
-  Email: admin@priyoma.com
-  Password: admin123
-  Role: ADMIN
-
-User Account:
-  Email: user@priyoma.com
-  Password: user123
-  Role: USER
-```
+The development seed includes public sample credentials. Use only with disposable local data; never reuse them in production. The production admin seed requires `ADMIN_EMAIL`, an `ADMIN_PASSWORD` of at least 16 characters, and `NODE_ENV=production`.
 
 ### Make Yourself an Admin
 ```bash
@@ -669,11 +658,7 @@ npm run dev
 http://localhost:3000
 ```
 
-### Test Accounts (if seeded):
-```
-Admin: admin@priyoma.com / admin123
-User:  user@priyoma.com / user123
-```
+The development seed contains public sample passwords; never reuse them in production.
 
 ---
 

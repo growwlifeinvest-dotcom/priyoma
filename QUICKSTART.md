@@ -94,8 +94,8 @@ npm run prisma:migrate   # Create/run migrations
 npm run prisma:generate  # Generate Prisma Client
 npm run prisma:studio    # Open Prisma Studio GUI
 
-# Database
-npm run prisma:seed      # Seed database (if seed.ts exists)
+# Development database only (destructive; never use against production)
+npm run seed:dev
 ```
 
 ---

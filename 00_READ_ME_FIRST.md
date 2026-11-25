@@ -192,21 +192,7 @@ Priyoma/
 
 ## 🔐 TEST ACCOUNTS
 
-After seeding the database, use:
-
-**Admin Account:**
-```
-Email: admin@priyoma.com
-Password: admin123
-```
-
-**User Account:**
-```
-Email: user@priyoma.com
-Password: user123
-```
-
-Or create your own by signing up!
+The development seed contains public sample credentials. Use only with disposable local data; never reuse these credentials in production. For production, create the first admin with `NODE_ENV=production`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` (at least 16 characters), and `npm run seed:prod`.
 
 ---
 
@@ -222,7 +208,7 @@ npm start                # Start prod server
 npm run prisma:migrate   # Run migrations
 npm run prisma:generate  # Generate Prisma client
 npm run prisma:studio    # Open database UI
-npm run prisma:seed      # Add test data
+npm run seed:dev          # Destructive disposable development data only
 
 # Code quality
 npm run lint             # Check code

@@ -367,12 +367,23 @@ PUT    /api/orders/[id]          - Update order status (Admin only)
      - `DATABASE_URL`
      - `NEXTAUTH_URL`
      - `NEXTAUTH_SECRET`
-   - Click "Deploy"
+   - Use a newly generated `NEXTAUTH_SECRET` for Production (for example, generate one locally with `openssl rand -base64 32`).
+   - Configure `NEXTAUTH_URL` to the production domain.
 
-3. **Update Environment Variables**
-   ```env
-   NEXTAUTH_URL=https://priyoma.vercel.app
-   ```
+3. **Apply the database migration before serving production traffic**
+   - Use a new, empty PostgreSQL database for production.
+   - Set its `DATABASE_URL` in the environment where you run the migration, then run `npx prisma migrate deploy`.
+   - Do not use `prisma migrate dev`, `prisma db push`, or the destructive development seed against production.
+
+4. **Create the initial production admin**
+   - Set `NODE_ENV=production`, `ADMIN_EMAIL`, and a unique `ADMIN_PASSWORD` of at least 16 characters in the trusted environment used for the seed command.
+   - Run `npm run seed:prod` once. The script refuses to run without these values or if an admin already exists.
+   - The existing development seed is destructive and contains public sample passwords. Never use those credentials in production.
+
+5. **Deploy**
+   - The build runs `prisma generate` before `next build`.
+   - Deploy only after confirming the production environment variables and migration are in place.
+
 
 ### Database Hosting
 
@@ -448,40 +459,10 @@ For issues and support:
 
 
 
-priya-ghewade@priya-ghewade-Victus-by-HP-Gaming-Laptop-15-fb3xxx:~/Desktop/Priyoma$ export DATABASE_URL="file:/home/priya-ghewade/Desktop/Priyoma/prisma/dev.db" && npm run prisma:seed 2>&1 | tail -20
-
-> priyoma@1.0.0 prisma:seed
-> ts-node --compiler-options '{"module":"commonjs"}' prisma/seed.ts
-
-🌱 Seeding database...
-📁 Creating categories...
-🕯️ Creating products...
-👥 Creating users...
-✅ Database seeded successfully!
-
-📋 Test Credentials:
-Admin - Email: admin@priyoma.com, Password: admin123
-User - Email: user@priyoma.com, Password: user123
-priya-ghewade@priya-ghewade-Victus-by-HP-Gaming-Laptop-15-fb3xxx:~/Desktop/Priyoma$ 
-
-
-=======================================
-🎉 PERFECT! The project is now fully running!
-
-✅ Status Summary:
-Server: Running ✅
-
-URL: http://localhost:3002
-Status: Ready
-Database: Connected ✅
-
-Type: SQLite (dev.db)
-Data: Seeded with test products and categories
-Status: All APIs working
 Test Credentials:
 
 
-Admin: admin@priyoma.com / admin123User: user@priyoma.com / user123
+Seeded sample accounts are development-only and use public passwords; never reuse them.
 What's Working:
 ✅ Homepage loads
 ✅ Products API returns data

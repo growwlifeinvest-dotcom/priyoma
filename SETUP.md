@@ -93,8 +93,8 @@ npm run prisma:generate
 # Run migrations
 npm run prisma:migrate
 
-# (Optional) Seed with test data
-npm run prisma:seed
+# (Optional) Seed disposable development data (destructive; development only)
+npm run seed:dev
 ```
 
 ### Step 5: Start Development Server
@@ -109,19 +109,7 @@ Open: **http://localhost:3000** 🎉
 
 ## 🧪 Testing Everything
 
-### Test Account #1 - Admin (If seeded)
-```
-Email: admin@priyoma.com
-Password: admin123
-Role: ADMIN
-```
-
-### Test Account #2 - User (If seeded)
-```
-Email: user@priyoma.com
-Password: user123
-Role: USER
-```
+The development seed includes public sample passwords. Use them only with disposable local data; never reuse them in production.
 
 ### Test the Flow
 
@@ -363,10 +351,10 @@ npm run lint                   # Check code quality
 npm run prisma:migrate        # Create migration
 npm run prisma:generate       # Generate Prisma Client
 npm run prisma:studio         # Open database GUI
-npm run prisma:seed           # Seed test data
+npm run seed:dev              # Destructive disposable development data only
 
 # Troubleshooting
-npm run prisma:db-seed        # Reset and seed database
+npm run seed:dev              # Reset and seed disposable development data
 ```
 
 ---

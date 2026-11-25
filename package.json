@@ -10,7 +10,9 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node --compiler-options '{\"module\":\"commonjs\"}' prisma/seed.ts",
+    "prisma:seed": "npm run seed:dev",
+    "seed:dev": "ts-node --compiler-options '{\"module\":\"commonjs\"}' prisma/seed.ts",
+    "seed:prod": "ts-node --compiler-options '{\"module\":\"commonjs\"}' prisma/seed-admin.ts",
     "postinstall": "prisma generate"
   },
   "keywords": [],

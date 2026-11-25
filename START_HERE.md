@@ -51,8 +51,8 @@ npm install
 npm run prisma:generate
 npm run prisma:migrate
 
-# Optional: Add test data
-npm run prisma:seed
+# Optional: Add disposable development data (destructive)
+npm run seed:dev
 ```
 
 ### 6️⃣ Start Development Server
@@ -82,16 +82,7 @@ http://localhost:3000 🎉
 - ✅ View all orders
 - ✅ Update order status
 
-### Test Accounts (If seeded):
-```
-Admin Login:
-  Email: admin@priyoma.com
-  Password: admin123
-
-Regular User:
-  Email: user@priyoma.com
-  Password: user123
-```
+The development seed contains public sample passwords. Never reuse them outside a disposable local database.
 
 ---
 
@@ -189,8 +180,8 @@ npm run build
 # View/manage database
 npm run prisma:studio
 
-# Add test data
-npm run prisma:seed
+# Add disposable development data (destructive)
+npm run seed:dev
 
 # Run migrations
 npm run prisma:migrate
