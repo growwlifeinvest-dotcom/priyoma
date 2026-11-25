@@ -3,10 +3,10 @@ import prisma from "@/lib/prisma";
 // DELETE remove item from cart
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const cartItemId = params.id;
+    const { id: cartItemId } = await params;
 
     await prisma.cartItem.delete({
       where: { id: cartItemId },
@@ -24,11 +24,12 @@ export async function DELETE(
 // PUT update cart item quantity
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await req.json();
     const { quantity } = body;
+    const { id } = await params;
 
     if (!quantity || quantity < 1) {
       return Response.json(
@@ -38,7 +39,7 @@ export async function PUT(
     }
 
     const cartItem = await prisma.cartItem.update({
-      where: { id: params.id },
+      where: { id },
       data: { quantity },
       include: { product: true },
     });

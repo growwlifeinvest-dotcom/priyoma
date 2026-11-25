@@ -3,11 +3,12 @@ import prisma from "@/lib/prisma";
 // GET order by ID
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const order = await prisma.order.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { items: { include: { product: true } } },
     });
 
@@ -30,14 +31,15 @@ export async function GET(
 // PUT update order status (Admin only)
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await req.json();
     const { status, paymentStatus } = body;
+    const { id } = await params;
 
     const order = await prisma.order.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(status && { status }),
         ...(paymentStatus && { paymentStatus }),

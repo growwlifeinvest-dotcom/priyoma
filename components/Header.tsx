@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { ShoppingCart, Search, Menu, X } from "lucide-react";
@@ -25,8 +26,14 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-purple-600">
-            🕯️ Priyoma
+          <Link href="/" className="flex items-center" aria-label="Priyoma home">
+            <Image
+              src="/images/priyoma-logo.png"
+              alt="Priyoma"
+              width={64}
+              height={64}
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

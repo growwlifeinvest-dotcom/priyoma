@@ -3,11 +3,12 @@ import prisma from "@/lib/prisma";
 // GET product by ID
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const product = await prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { category: true },
     });
 
@@ -30,14 +31,15 @@ export async function GET(
 // PUT update product (Admin only)
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await req.json();
     const { name, description, price, imageUrl, stock, categoryId } = body;
+    const { id } = await params;
 
     const product = await prisma.product.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...(name && { name }),
         ...(description && { description }),
@@ -60,11 +62,12 @@ export async function PUT(
 // DELETE product (Admin only)
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.product.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return Response.json({ message: "Product deleted successfully" });
