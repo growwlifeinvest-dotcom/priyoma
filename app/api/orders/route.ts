@@ -66,11 +66,9 @@ export async function POST(req: Request) {
     });
 
     return Response.json(order, { status: 201 });
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Failed to create order" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Create order error:", error);
+    return Response.json({ error: "Failed to create order" }, { status: 500 });
   }
 }
 
@@ -92,10 +90,8 @@ export async function GET() {
     });
 
     return Response.json(orders);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Failed to fetch orders" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Fetch orders error:", error);
+    return Response.json({ error: "Failed to fetch orders" }, { status: 500 });
   }
 }

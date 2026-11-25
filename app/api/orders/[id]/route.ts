@@ -30,11 +30,9 @@ export async function GET(
     }
 
     return Response.json(order);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Failed to fetch order" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Fetch order error:", error);
+    return Response.json({ error: "Failed to fetch order" }, { status: 500 });
   }
 }
 
@@ -61,10 +59,8 @@ export async function PUT(
     });
 
     return Response.json(order);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Failed to update order" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Update order error:", error);
+    return Response.json({ error: "Failed to update order" }, { status: 500 });
   }
 }

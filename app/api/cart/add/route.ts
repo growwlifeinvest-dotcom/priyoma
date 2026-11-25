@@ -65,9 +65,10 @@ export async function POST(req: Request) {
     }
 
     return Response.json(cartItem, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Add cart item error:", error);
     return Response.json(
-      { error: error.message || "Failed to add item to cart" },
+      { error: "Failed to add item to cart" },
       { status: 500 }
     );
   }

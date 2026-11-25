@@ -55,10 +55,8 @@ export async function POST(req: Request) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Signup failed" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Signup error:", error);
+    return Response.json({ error: "Signup failed" }, { status: 500 });
   }
 }

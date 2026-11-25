@@ -29,9 +29,10 @@ export async function GET(req: Request) {
     });
 
     return Response.json(products);
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Fetch products error:", error);
     return Response.json(
-      { error: error.message || "Failed to fetch products" },
+      { error: "Failed to fetch products" },
       { status: 500 }
     );
   }
@@ -77,9 +78,10 @@ export async function POST(req: Request) {
     });
 
     return Response.json(product, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Create product error:", error);
     return Response.json(
-      { error: error.message || "Failed to create product" },
+      { error: "Failed to create product" },
       { status: 500 }
     );
   }

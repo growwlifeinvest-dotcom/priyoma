@@ -21,11 +21,9 @@ export async function GET(
     }
 
     return Response.json(product);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Failed to fetch product" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Fetch product error:", error);
+    return Response.json({ error: "Failed to fetch product" }, { status: 500 });
   }
 }
 
@@ -55,9 +53,10 @@ export async function PUT(
     });
 
     return Response.json(product);
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Update product error:", error);
     return Response.json(
-      { error: error.message || "Failed to update product" },
+      { error: "Failed to update product" },
       { status: 500 }
     );
   }
@@ -78,9 +77,10 @@ export async function DELETE(
     });
 
     return Response.json({ message: "Product deleted successfully" });
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Delete product error:", error);
     return Response.json(
-      { error: error.message || "Failed to delete product" },
+      { error: "Failed to delete product" },
       { status: 500 }
     );
   }

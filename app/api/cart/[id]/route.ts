@@ -27,9 +27,10 @@ export async function DELETE(
     });
 
     return Response.json({ message: "Item removed from cart" });
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Remove cart item error:", error);
     return Response.json(
-      { error: error.message || "Failed to remove item from cart" },
+      { error: "Failed to remove item from cart" },
       { status: 500 }
     );
   }
@@ -73,9 +74,10 @@ export async function PUT(
     });
 
     return Response.json(updatedCartItem);
-  } catch (error: any) {
+  } catch (error) {
+    console.error("Update cart item error:", error);
     return Response.json(
-      { error: error.message || "Failed to update cart item" },
+      { error: "Failed to update cart item" },
       { status: 500 }
     );
   }

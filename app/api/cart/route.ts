@@ -30,10 +30,8 @@ export async function GET() {
     }
 
     return Response.json(cart);
-  } catch (error: any) {
-    return Response.json(
-      { error: error.message || "Failed to fetch cart" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Fetch cart error:", error);
+    return Response.json({ error: "Failed to fetch cart" }, { status: 500 });
   }
 }
