@@ -73,7 +73,7 @@ export default function AdminCategoriesPage() {
     }
   };
 
-  const handleDelete = async (categoryId: string) => {
+  const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this category?")) return;
 
     try {
@@ -218,7 +218,7 @@ export default function AdminCategoriesPage() {
                       </td>
                       <td className="px-6 py-4">
                         <button
-                          onClick={() => handleDelete(category.id)}
+                          onClick={() => handleDelete()}
                           className="text-red-600 hover:bg-red-100 p-2 rounded transition"
                         >
                           <Trash2 size={18} />

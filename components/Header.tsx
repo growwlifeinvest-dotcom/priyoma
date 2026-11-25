@@ -6,17 +6,6 @@ import { useSession, signOut } from "next-auth/react";
 import { ShoppingCart, Search, Menu, X } from "lucide-react";
 import { useState } from "react";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      role?: string;
-    };
-  }
-}
-
 export default function Header() {
   const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

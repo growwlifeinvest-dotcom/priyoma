@@ -16,18 +16,6 @@ interface ProductProps {
   stock: number;
 }
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      id?: string | null;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      role?: string;
-    };
-  }
-}
-
 export default function ProductCard({ product }: { product: ProductProps }) {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
@@ -46,7 +34,6 @@ export default function ProductCard({ product }: { product: ProductProps }) {
     setLoading(true);
     try {
       await axios.post("/api/cart/add", {
-        userId: session.user.id,
         productId: product.id,
         quantity: 1,
       });

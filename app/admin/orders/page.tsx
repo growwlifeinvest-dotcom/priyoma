@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import axios from "axios";
 import Link from "next/link";
-import { Eye, Edit2 } from "lucide-react";
+import { Eye } from "lucide-react";
 
 interface Order {
   id: string;

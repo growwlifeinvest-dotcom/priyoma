@@ -4,19 +4,21 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node --compiler-options '{\"module\":\"commonjs\"}' prisma/seed.ts"
+    "prisma:seed": "ts-node --compiler-options '{\"module\":\"commonjs\"}' prisma/seed.ts",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "@tailwindcss/postcss": "^4.1.18",
     "axios": "^1.13.4",
     "bcrypt": "^6.0.0",
@@ -27,7 +29,6 @@
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@prisma/client": "^5.17.0",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^25.2.0",
     "@types/react": "^19.2.11",
@@ -36,7 +37,7 @@
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.6",
     "postcss-nested": "^7.0.2",
-    "prisma": "^5.17.0",
+    "prisma": "^5.22.0",
     "tailwindcss": "^4.1.18",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
