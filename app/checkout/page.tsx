@@ -14,7 +14,7 @@ interface OrderItem {
 }
 
 export default function CheckoutPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,9 +38,7 @@ export default function CheckoutPage() {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("/api/cart", {
-        headers: { "x-user-id": (session?.user as any)?.id },
-      });
+      const res = await axios.get("/api/cart");
       setCartItems(res.data.items || []);
     } catch (error) {
       console.error("Failed to fetch cart:", error);
@@ -67,7 +65,6 @@ export default function CheckoutPage() {
       const shippingAddress = `${formData.addressLine}, ${formData.city}, ${formData.state} - ${formData.pincode}`;
       
       const res = await axios.post("/api/orders", {
-        userId: (session?.user as any)?.id,
         shippingAddress,
       });
 

@@ -1,16 +1,12 @@
 import prisma from "@/lib/prisma";
+import { getAuthenticatedSession } from "@/lib/authorization";
 
 // GET cart for user
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const userId = req.headers.get("x-user-id");
-
-    if (!userId) {
-      return Response.json(
-        { error: "User ID is required" },
-        { status: 400 }
-      );
-    }
+    const session = await getAuthenticatedSession();
+    if (session instanceof Response) return session;
+    const userId = session.user.id;
 
     let cart = await prisma.cart.findUnique({
       where: { userId },

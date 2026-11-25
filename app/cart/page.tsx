@@ -21,7 +21,7 @@ interface CartItem {
 }
 
 export default function CartPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,9 +36,7 @@ export default function CartPage() {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get("/api/cart", {
-        headers: { "x-user-id": (session?.user as any)?.id },
-      });
+      const res = await axios.get("/api/cart");
       setCartItems(res.data.items || []);
     } catch (error) {
       console.error("Failed to fetch cart:", error);

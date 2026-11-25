@@ -51,7 +51,6 @@ export default function ProductDetailPage() {
     setAdding(true);
     try {
       await axios.post("/api/cart/add", {
-        userId: (session.user as any).id,
         productId: product?.id,
         quantity,
       });

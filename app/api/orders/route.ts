@@ -1,21 +1,25 @@
 import prisma from "@/lib/prisma";
+import { getAuthenticatedSession } from "@/lib/authorization";
 
 // POST create order
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { userId, shippingAddress } = body;
+    const session = await getAuthenticatedSession();
+    if (session instanceof Response) return session;
 
-    if (!userId || !shippingAddress) {
+    const body = await req.json();
+    const { shippingAddress } = body;
+
+    if (!shippingAddress) {
       return Response.json(
-        { error: "userId and shippingAddress are required" },
+        { error: "Shipping address is required" },
         { status: 400 }
       );
     }
 
     // Get user's cart
     const cart = await prisma.cart.findUnique({
-      where: { userId },
+      where: { userId: session.user.id },
       include: {
         items: {
           include: { product: true },
@@ -38,7 +42,7 @@ export async function POST(req: Request) {
     // Create order
     const order = await prisma.order.create({
       data: {
-        userId,
+        userId: session.user.id,
         shippingAddress,
         totalAmount,
         items: {
@@ -69,19 +73,16 @@ export async function POST(req: Request) {
 }
 
 // GET orders for user
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const userId = req.headers.get("x-user-id");
-
-    if (!userId) {
-      return Response.json(
-        { error: "User ID is required" },
-        { status: 400 }
-      );
-    }
+    const session = await getAuthenticatedSession();
+    if (session instanceof Response) return session;
 
     const orders = await prisma.order.findMany({
-      where: { userId },
+      where:
+        session.user.role === "ADMIN"
+          ? undefined
+          : { userId: session.user.id },
       include: {
         items: { include: { product: true } },
       },

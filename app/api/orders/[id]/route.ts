@@ -1,14 +1,24 @@
 import prisma from "@/lib/prisma";
+import {
+  getAuthenticatedSession,
+  requireAdmin,
+} from "@/lib/authorization";
 
 // GET order by ID
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getAuthenticatedSession();
+    if (session instanceof Response) return session;
+
     const { id } = await params;
-    const order = await prisma.order.findUnique({
-      where: { id },
+    const order = await prisma.order.findFirst({
+      where: {
+        id,
+        ...(session.user.role === "ADMIN" ? {} : { userId: session.user.id }),
+      },
       include: { items: { include: { product: true } } },
     });
 
@@ -34,6 +44,9 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const authorizationError = await requireAdmin();
+    if (authorizationError) return authorizationError;
+
     const body = await req.json();
     const { status, paymentStatus } = body;
     const { id } = await params;

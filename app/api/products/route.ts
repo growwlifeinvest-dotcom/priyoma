@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/authorization";
 
 // GET all products
 export async function GET(req: Request) {
@@ -39,6 +40,9 @@ export async function GET(req: Request) {
 // POST create product (Admin only)
 export async function POST(req: Request) {
   try {
+    const authorizationError = await requireAdmin();
+    if (authorizationError) return authorizationError;
+
     const body = await req.json();
     const { name, description, price, imageUrl, stock, categoryId } = body;
 

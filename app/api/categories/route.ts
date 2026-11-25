@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/authorization";
 
 // GET all categories
 export async function GET() {
@@ -23,6 +24,9 @@ export async function GET() {
 // POST create category (Admin only)
 export async function POST(req: Request) {
   try {
+    const authorizationError = await requireAdmin();
+    if (authorizationError) return authorizationError;
+
     const body = await req.json();
     const { name, description } = body;
 

@@ -19,7 +19,7 @@ interface Order {
 }
 
 export default function OrdersPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,9 +34,7 @@ export default function OrdersPage() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("/api/orders", {
-        headers: { "x-user-id": (session?.user as any)?.id },
-      });
+      const res = await axios.get("/api/orders");
       setOrders(res.data);
     } catch (error) {
       console.error("Failed to fetch orders:", error);

@@ -1,8 +1,9 @@
 import prisma from "@/lib/prisma";
+import { requireAdmin } from "@/lib/authorization";
 
 // GET product by ID
 export async function GET(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -34,6 +35,9 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const authorizationError = await requireAdmin();
+    if (authorizationError) return authorizationError;
+
     const body = await req.json();
     const { name, description, price, imageUrl, stock, categoryId } = body;
     const { id } = await params;
@@ -61,10 +65,13 @@ export async function PUT(
 
 // DELETE product (Admin only)
 export async function DELETE(
-  req: Request,
+  _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const authorizationError = await requireAdmin();
+    if (authorizationError) return authorizationError;
+
     const { id } = await params;
     await prisma.product.delete({
       where: { id },

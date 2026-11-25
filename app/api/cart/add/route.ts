@@ -1,26 +1,30 @@
 import prisma from "@/lib/prisma";
+import { getAuthenticatedSession } from "@/lib/authorization";
 
 // POST add item to cart
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { userId, productId, quantity } = body;
+    const session = await getAuthenticatedSession();
+    if (session instanceof Response) return session;
 
-    if (!userId || !productId || !quantity) {
+    const body = await req.json();
+    const { productId, quantity } = body;
+
+    if (!productId || !Number.isInteger(quantity) || quantity < 1) {
       return Response.json(
-        { error: "userId, productId, and quantity are required" },
+        { error: "Product ID and a valid quantity are required" },
         { status: 400 }
       );
     }
 
     // Get or create cart
     let cart = await prisma.cart.findUnique({
-      where: { userId },
+      where: { userId: session.user.id },
     });
 
     if (!cart) {
       cart = await prisma.cart.create({
-        data: { userId },
+        data: { userId: session.user.id },
       });
     }
 
